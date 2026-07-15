@@ -21,3 +21,8 @@ class User(Base):
     foreign_keys="Friendship.receiver_id",
     back_populates="receiver"
   )
+  post_author = relationship(
+    "Post",
+    foreign_keys="Post.author_id",
+    back_populates="author"
+  )

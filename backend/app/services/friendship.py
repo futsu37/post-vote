@@ -2,7 +2,7 @@ from app.schemas.friendship import FriendshipCreate
 from sqlalchemy.orm import Session
 from app.utils.exceptions.http.exc_404 import (http_404_exc_request_object_id_not_found,
                                                http_404_exc_request_object_not_found)
-from app.utils.exceptions.http.exc_403 import http_403_forbidden_befriend_oneself_request
+from app.utils.exceptions.http.exc_403 import http_403_exc_forbidden_befriend_oneself_request
 from app.utils.exceptions.http.exc_409 import (http_409_exc_friendship_request_pending_conflict, 
                                                http_409_exc_friendship_request_accepted_conflict)
 from app.models.user import User
@@ -13,7 +13,7 @@ def get_friends(db: Session, current_user: User):
 
 def send_friend_request(receiver_id: int, current_user: User,db: Session):
   if receiver_id == current_user.id:
-    raise http_403_forbidden_befriend_oneself_request()
+    raise http_403_exc_forbidden_befriend_oneself_request()
 
   receiver = user.get_by_id(receiver_id)
 
@@ -34,7 +34,7 @@ def send_friend_request(receiver_id: int, current_user: User,db: Session):
 
 def receive_friend_requset(sender_id: int, current_user: User, db: Session):
   if sender_id == current_user.id:
-    raise http_403_forbidden_befriend_oneself_request()
+    raise http_403_exc_forbidden_befriend_oneself_request()
   
   sender = user.get_by_id(sender_id)
 
@@ -54,7 +54,7 @@ def receive_friend_requset(sender_id: int, current_user: User, db: Session):
 
 def remove_friendship(other_user_id: int, current_user: User, db: Session):
   if other_user_id == current_user.id:
-    raise http_403_forbidden_befriend_oneself_request()
+    raise http_403_exc_forbidden_befriend_oneself_request()
   
   other_user = user.get_by_id(db,other_user_id)
   

@@ -19,5 +19,12 @@ def http_403_forbidden_credentials() -> str:
 def http_403_forbidden_befriend_oneself() -> str:
   return "You can't request friend operations with yourself!"
 
+def http_403_forbidden_post_update() -> str:
+  return "You can only edit your own posts!"
+
+def http_403_forbidden_post_delete() -> str:
+  return "You can only delete your own posts!"
+
+
 def http_401_unauthorized_login() -> str:
   return "Could not complete authenticaion. Wrong password or username"
