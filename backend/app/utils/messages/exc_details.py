@@ -25,6 +25,12 @@ def http_403_forbidden_post_update() -> str:
 def http_403_forbidden_post_delete() -> str:
   return "You can only delete your own posts!"
 
+def http_403_forbidden_comment_update() -> str:
+  return "You can only edit your own comments!"
+
+def http_403_forbidden_comment_delete() -> str:
+  return "You can only delete your own comments!"
+
 
 def http_401_unauthorized_login() -> str:
   return "Could not complete authenticaion. Wrong password or username"

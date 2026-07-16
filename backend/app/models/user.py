@@ -26,3 +26,8 @@ class User(Base):
     foreign_keys="Post.author_id",
     back_populates="author"
   )
+  commenter_user = relationship(
+    "Comment",
+    foreign_keys="Comment.commenter_id",
+    back_populates="commenter"
+  )

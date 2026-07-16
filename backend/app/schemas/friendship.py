@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field, AliasPath
-from typing import Optional
 from datetime import datetime
 from pydantic.config import ConfigDict
 from app.models.friendship import Status

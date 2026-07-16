@@ -16,3 +16,8 @@ class Post(Base):
     foreign_keys=[author_id],
     back_populates="post_author"
   )
+  comment_post = relationship(
+    "Comment",
+    foreign_keys="Comment.post_id",
+    back_populates="post"
+  )
