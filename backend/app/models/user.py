@@ -31,3 +31,8 @@ class User(Base):
     foreign_keys="Comment.commenter_id",
     back_populates="commenter"
   )
+  user_liked = relationship(
+    "Like",
+    foreign_keys="Like.user_id",
+    back_populates="user"
+  )

@@ -21,3 +21,8 @@ class Post(Base):
     foreign_keys="Comment.post_id",
     back_populates="post"
   )
+  post_liked = relationship(
+    "Like",
+    foreign_keys="Like.post_id",
+    back_populates="post"
+  )

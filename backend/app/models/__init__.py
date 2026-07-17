@@ -2,10 +2,12 @@ from .user import User
 from .friendship import Friendship
 from .post import Post
 from .comment import Comment
+from .like import Like
 
 __all__ = [
   "User",
   "Friendship",
   "Post",
-  "Comment"
+  "Comment",
+  "Like"
 ]

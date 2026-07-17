@@ -1,16 +1,19 @@
 def http_409_username_conflict() -> str:
   return "User with this username already exist!"
 
-def http_409_exc_friendship_pending_conflict() -> str:
+def http_409_friendship_pending_conflict() -> str:
   return "You already sended friend request to that user!"
 
-def http_409_exc_friendship_accepted_conflict() -> str:
+def http_409_friendship_accepted_conflict() -> str:
   return "You already friends with this user!"
 
-def http_404_exc_object_id_not_found(id: int, object_name: str) -> str:
+def http_409_like_post_conflict() -> str:
+  return "You can't like the same post twice!"
+ 
+def http_404_object_id_not_found(id: int, object_name: str) -> str:
   return f"The {object_name} with id {id} doesn't exist"
 
-def http_404_exc_object_not_found(object_name: str) -> str:
+def http_404_object_not_found(object_name: str) -> str:
   return f"The {object_name} doesn't exist"
 
 def http_403_forbidden_credentials() -> str:

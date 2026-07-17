@@ -9,7 +9,7 @@ from app.utils.exceptions.http.exc_403 import (http_403_exc_forbidden_post_updat
 from app.repository.post import create, get_all, get, update, delete
 from app.services.user import existing_user
 
-def existing_post(post_id: int, db: Session) -> Post:
+def get_post_or_404(post_id: int, db: Session) -> Post:
   existing_post = get(db, post_id)
   if not existing_post:
     raise http_404_exc_request_object_id_not_found(post_id,"Post")
@@ -31,7 +31,7 @@ def get_user_posts(user_id: int, db: Session) -> List[PostOut]:
 
 def edit_post(post_id: int, updated_post: PostUpdate,db: Session, current_user: User) -> PostOut:
   
-  post = existing_post(post_id, db)
+  post = get_post_or_404(post_id, db)
   valid_author = post.author_id == current_user.id
   if not valid_author:
     raise http_403_exc_forbidden_post_update_request()
@@ -44,7 +44,7 @@ def edit_post(post_id: int, updated_post: PostUpdate,db: Session, current_user: 
   return update(post)
 
 def delete_post(post_id: int, db: Session, current_user: User):
-  post = existing_post(post_id,db) 
+  post = get_post_or_404(post_id,db) 
   valid_author = post.author_id == current_user.id
   if not valid_author:
     raise http_403_exc_forbidden_post_delete_request()
