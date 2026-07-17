@@ -2,10 +2,10 @@ def http_409_username_conflict() -> str:
   return "User with this username already exist!"
 
 def http_409_friendship_pending_conflict() -> str:
-  return "You already sended friend request to that user!"
+  return "This friend request is already in pending state!"
 
 def http_409_friendship_accepted_conflict() -> str:
-  return "You already friends with this user!"
+  return "You're already friends with this user!"
 
 def http_409_like_post_conflict() -> str:
   return "You can't like the same post twice!"
@@ -21,6 +21,9 @@ def http_403_forbidden_credentials() -> str:
 
 def http_403_forbidden_befriend_oneself() -> str:
   return "You can't request friend operations with yourself!"
+
+def http_403_forbidden_friend_sender_operation() -> str:
+  return "Only receiver can accept/reject friend request!"
 
 def http_403_forbidden_post_update() -> str:
   return "You can only edit your own posts!"
