@@ -9,7 +9,10 @@ def http_409_friendship_accepted_conflict() -> str:
 
 def http_409_like_post_conflict() -> str:
   return "You can't like the same post twice!"
- 
+
+def http_409_profile_create_conflict() -> str:
+  return "The user can have only one profile at a time!"
+
 def http_404_object_id_not_found(id: int, object_name: str) -> str:
   return f"The {object_name} with id {id} doesn't exist"
 

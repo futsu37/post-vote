@@ -7,7 +7,7 @@ class Profile(Base):
 
   id = Column(Integer, index=True, primary_key=True, nullable=False)
   bio = Column(String, nullable=True)
-  user_id = (Integer, ForeignKey("users.id",ondelete="CASCADE"))
+  user_id = Column(Integer, ForeignKey("users.id",ondelete="CASCADE"))
 
   user = relationship(
     "User",

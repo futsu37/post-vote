@@ -1,8 +1,8 @@
 """Add Profiles table
 
-Revision ID: 2d7f8d583a8a
+Revision ID: 0ea532bef755
 Revises: 6ae73b3b5931
-Create Date: 2026-07-18 05:37:57.077990
+Create Date: 2026-07-18 06:04:29.474591
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '2d7f8d583a8a'
+revision: str = '0ea532bef755'
 down_revision: Union[str, Sequence[str], None] = '6ae73b3b5931'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -24,6 +24,8 @@ def upgrade() -> None:
     op.create_table('profiles',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('bio', sa.String(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_profiles_id'), 'profiles', ['id'], unique=False)
