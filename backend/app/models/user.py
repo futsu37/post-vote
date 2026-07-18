@@ -36,3 +36,8 @@ class User(Base):
     foreign_keys="Like.user_id",
     back_populates="user"
   )
+  user_profile = relationship(
+    "Profile",
+    foreign_keys="Profile.user_id",
+    back_populates="user"
+  )

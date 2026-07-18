@@ -4,6 +4,8 @@ from fastapi import APIRouter, Depends
 from app.core.dependencies import get_db, get_current_user
 from app.models import User
 from app.schemas.post import PostOut, PostUserCreate, PostUpdate
+from app.schemas.like import LikeOut
+from app.schemas.comment import CommentOut
 from sqlalchemy.orm import Session
 from app.services import post 
 
