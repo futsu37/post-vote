@@ -15,7 +15,7 @@ def get_user_or_404(db: Session,user_id: int) -> User:
 
 def create_user(user_create_form: UserCreate,db: Session) -> User:
   new_user = User(**user_create_form.model_dump())
-  if get_by_username(new_user.username):
+  if get_by_username(db,new_user.username):
     raise http_409_exc_username_request_conflict()
   new_user.password = hash_password(new_user.password)
   return create(db, new_user)
