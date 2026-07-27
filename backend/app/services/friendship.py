@@ -19,6 +19,12 @@ def get_frinedship_or_404(db: Session, user_1: User, user_2: User) -> Friendship
 def get_friends(db: Session, current_user: User):
   return friendship.get_all(db, current_user)
 
+def get_friend_requests(db: Session, current_user: User):
+  return friendship.get_friend_requests(db, current_user)
+
+def get_sent_friend_requests(db: Session, current_user: User):
+  return friendship.get_sent_friend_requests(db, current_user)
+
 def send_friend_request(receiver_id: int, current_user: User,db: Session):
   if receiver_id == current_user.id:
     raise http_403_exc_forbidden_befriend_oneself_request()

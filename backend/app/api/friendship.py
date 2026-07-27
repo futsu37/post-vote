@@ -13,6 +13,14 @@ router = APIRouter(
 def get_friends(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
   return friendship.get_friends(db,current_user)
 
+@router.get("/requests", response_model=List[FriendshipOut])
+def get_friend_requests(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+  return friendship.get_friend_requests(db,current_user)
+
+@router.get("/sent_requests", response_model=List[FriendshipOut])
+def get_sent_friend_requests(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+  return friendship.get_sent_friend_requests(db,current_user)
+
 @router.post("/send/{receiver_id}",response_model=FriendshipOut)
 def send_friend_request(receiver_id: int, 
                         current_user: User = Depends(get_current_user),

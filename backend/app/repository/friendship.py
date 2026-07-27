@@ -12,6 +12,17 @@ def get_all(db: Session, current_user: User) -> List[Friendship]:
     )).all()
     return friendship
 
+def get_friend_requests(db: Session, current_user: User) -> List[Friendship]:
+    friendship = db.query(Friendship).filter(
+    and_(Friendship.receiver_id == current_user.id, Friendship.status == Status.PENDING)
+    ).all()
+    return friendship
+def get_sent_friend_requests(db: Session, current_user: User) -> List[Friendship]:
+    friendship = db.query(Friendship).filter(
+    and_(Friendship.sender_id == current_user.id, Friendship.status == Status.PENDING)
+    ).all()
+    return friendship
+
 def create(db: Session, friendship: Friendship) -> Friendship:
   db.add(friendship)
   db.commit()
