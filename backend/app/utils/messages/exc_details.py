@@ -1,6 +1,9 @@
 def http_409_username_conflict() -> str:
   return "User with this username already exist!"
 
+def http_409_email_conflict() -> str:
+  return "User with this email already exist!"
+
 def http_409_friendship_pending_conflict() -> str:
   return "This friend request is already in pending state!"
 
