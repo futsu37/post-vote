@@ -111,13 +111,16 @@ A full-stack social network built with FastAPI, PostgreSQL and React. The projec
     ┃   ┃   ┣━━ 🐍 conftest.py
     ┃   ┃   ┣━━ 🐍 test_auth.py
     ┃   ┃   ┗━━ 🐍 test_user.py
+    ┃   ┣━━ 📄 .dockerignore  # A file that list files to be excluding when building docker container
     ┃   ┣━━ 📄 .env.example # Example of .env file
     ┃   ┣━━ 📄 .gitignore # A file that list files to be excluded when commiting into git
     ┃   ┣━━ 📄 alembic.ini  # Automatic database migration configuration
+    ┃   ┣━━ 📄 Dockerfile  # Docker file for image creation
     ┃   ┗━━ 📄 requirements.txt # Packages installed for backend app
     ┣━━ 📁frontend # IN DEVELOPMENT
     ┣━━ 📄 LICENSE # License for this project
     ┣━━ 📄 pyproject.toml # Linter and test main configuration file
+    ┣━━ 📄 docker-compose.yml # Docker compose file
     ┗━━ 📝 README.md # The main documentation file for this template repository
 ```
 ## Installation
