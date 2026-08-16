@@ -1,3 +1,4 @@
+from pydantic import computed_field, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Setting(BaseSettings):
@@ -19,6 +20,18 @@ class Setting(BaseSettings):
   algorithm: str
 
   api_v1_str: str = "/api/v1"
+
+  @computed_field
+  @property
+  def sqlalchemy_database_uri(self) -> PostgresDsn:
+    return PostgresDsn.build(
+      scheme="postgresql+psycopg",
+      username=self.db_username,
+      password=self.db_password,
+      host=self.db_hostname,
+      port=self.db_port,
+      path=self.db_name
+    )
 
 
 settings = Setting()

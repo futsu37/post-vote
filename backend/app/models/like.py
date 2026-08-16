@@ -1,21 +1,45 @@
-from app.db.base import Base
-from sqlalchemy import Column, Integer, ForeignKey
-from sqlalchemy.orm import relationship 
-class Like(Base):
-  __tablename__ = "likes"
+import uuid
+from typing import TYPE_CHECKING, Optional
 
-  id = Column(Integer,index=True, nullable=False,primary_key=True)
-  
-  post_id = Column(Integer, ForeignKey("posts.id",ondelete="CASCADE"))
-  user_id = Column(Integer, ForeignKey("users.id",ondelete="CASCADE"))
+from sqlmodel import Field, Relationship, SQLModel
+from sqlalchemy import Column, ForeignKey
 
-  user = relationship(
-    "User",
-    foreign_keys=[user_id],
-    back_populates="user_liked"
-  )
-  post = relationship(
-    "Post",
-    foreign_keys=[post_id],
-    back_populates="post_liked" 
-  )
+if TYPE_CHECKING:
+    from app.models.user import User
+    from app.models.post import Post
+
+
+class Like(SQLModel, table=True):
+    __tablename__ = "likes"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+    post_id: Optional[int] = Field(
+        default=None,
+        sa_column=Column(
+            ForeignKey("posts.id", ondelete="CASCADE"),
+            nullable=True,
+        ),
+    )
+
+    user_id: Optional[int] = Field(
+        default=None,
+        sa_column=Column(
+            ForeignKey("users.id", ondelete="CASCADE"),
+            nullable=True,
+        ),
+    )
+
+    user: Optional[User] = Relationship(
+        back_populates="user_liked",
+        sa_relationship_kwargs={
+            "foreign_keys": "Like.user_id"
+        },
+    )
+
+    post: Optional[Post] = Relationship(
+        back_populates="post_liked",
+        sa_relationship_kwargs={
+            "foreign_keys": "Like.post_id"
+        },
+    )

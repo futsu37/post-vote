@@ -1,25 +1,56 @@
-from app.db.base import Base
-from sqlalchemy import Column, String, Integer, text, TIMESTAMP, ForeignKey
-from sqlalchemy.orm import relationship 
-class Comment(Base):
-  __tablename__ = "comments"
+import uuid
+from app.utils.time import get_datetime_utc
+from datetime import datetime
+from typing import TYPE_CHECKING, Optional
 
-  id = Column(Integer,index=True, nullable=False,primary_key=True)
+from sqlmodel import Field, Relationship, SQLModel
+from sqlalchemy import Column, DateTime, ForeignKey
 
-  content = Column(String, nullable=False)
+if TYPE_CHECKING:
+    from app.models.user import User
+    from app.models.post import Post
 
-  commenter_id = Column(Integer, ForeignKey("users.id",ondelete="CASCADE"))
-  post_id = Column(Integer, ForeignKey("posts.id",ondelete="CASCADE"))
 
-  created_at = Column(TIMESTAMP,nullable=False,server_default=text("NOW()"))
+class Comment(SQLModel, table=True):
+    __tablename__ = "comments"
 
-  commenter = relationship(
-    "User",
-    foreign_keys=[commenter_id],
-    back_populates="commenter_user"
-  )
-  post = relationship(
-    "Post",
-    foreign_keys=[post_id],
-    back_populates="comment_post"
-  )
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+    content: str = Field(
+        nullable=False,
+    )
+
+    commenter_id: Optional[int] = Field(
+        default=None,
+        sa_column=Column(
+            ForeignKey("users.id", ondelete="CASCADE"),
+            nullable=True,
+        ),
+    )
+
+    post_id: Optional[int] = Field(
+        default=None,
+        sa_column=Column(
+            ForeignKey("posts.id", ondelete="CASCADE"),
+            nullable=True,
+        ),
+    )
+
+    created_at: datetime | None = Field(
+      default_factory=get_datetime_utc,
+      sa_type=DateTime(timezone=True) # type: ignore
+    )
+
+    commenter: Optional[User] = Relationship(
+        back_populates="commenter_user",
+        sa_relationship_kwargs={
+            "foreign_keys": "Comment.commenter_id"
+        },
+    )
+
+    post: Optional[Post] = Relationship(
+        back_populates="comment_post",
+        sa_relationship_kwargs={
+            "foreign_keys": "Comment.post_id"
+        },
+    )

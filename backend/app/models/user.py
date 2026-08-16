@@ -1,43 +1,63 @@
-from app.db.base import Base
-from sqlalchemy import Column, String, Integer, text, TIMESTAMP
-from sqlalchemy.orm import relationship 
-class User(Base):
-  __tablename__ = "users"
+from sqlalchemy import DateTime
+import uuid
+from datetime import datetime
+from typing import TYPE_CHECKING
+from app.utils.time import get_datetime_utc
+from sqlmodel import Field, Relationship, SQLModel
 
-  id = Column(Integer,index=True, nullable=False,primary_key=True)
-  username = Column(String, unique=True ,nullable=False)
-  display_name = Column(String, nullable=False)
-  email = Column(String, nullable=False, unique=True)
-  password = Column(String, nullable=False)
-  created_at = Column(TIMESTAMP,nullable=False,server_default=text("NOW()"))
+if TYPE_CHECKING:
+    from app.models.friendship import Friendship
+    from app.models.post import Post
+    from app.models.comment import Comment
+    from app.models.like import Like
 
-  sender_friendship = relationship(
-    "Friendship",
-    foreign_keys="Friendship.sender_id",
-    back_populates="sender"
-  )
-  receiver_friendship = relationship(
-    "Friendship",
-    foreign_keys="Friendship.receiver_id",
-    back_populates="receiver"
-  )
-  post_author = relationship(
-    "Post",
-    foreign_keys="Post.author_id",
-    back_populates="author"
-  )
-  commenter_user = relationship(
-    "Comment",
-    foreign_keys="Comment.commenter_id",
-    back_populates="commenter"
-  )
-  user_liked = relationship(
-    "Like",
-    foreign_keys="Like.user_id",
-    back_populates="user"
-  )
-  user_profile = relationship(
-    "Profile",
-    foreign_keys="Profile.user_id",
-    back_populates="user"
-  )
+
+class User(SQLModel, table=True):
+    __tablename__ = "users"
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    username: str = Field(unique=True, nullable=False, max_length=128)
+    display_name: str = Field(nullable=False, max_length=128)
+    email: str = Field(unique=True, nullable=False, max_length=255)
+    hashed_password: str
+    created_at: datetime | None = Field(
+      default_factory=get_datetime_utc,
+      sa_type=DateTime(timezone=True) # type: ignore
+    )
+    is_active: bool = True
+    is_superuser: bool = False
+
+    sender_friendship: list[Friendship] = Relationship(
+        back_populates="sender",
+        sa_relationship_kwargs={
+            "foreign_keys": "Friendship.sender_id"
+        },
+    )
+
+    receiver_friendship: list[Friendship] = Relationship(
+        back_populates="receiver",
+        sa_relationship_kwargs={
+            "foreign_keys": "Friendship.receiver_id"
+        },
+    )
+
+    post_author: list[Post] = Relationship(
+        back_populates="author",
+        sa_relationship_kwargs={
+            "foreign_keys": "Post.author_id"
+        },
+    )
+
+    commenter_user: list[Comment] = Relationship(
+        back_populates="commenter",
+        sa_relationship_kwargs={
+            "foreign_keys": "Comment.commenter_id"
+        },
+    )
+
+    user_liked: list[Like] = Relationship(
+        back_populates="user",
+        sa_relationship_kwargs={
+            "foreign_keys": "Like.user_id"
+        },
+    )
