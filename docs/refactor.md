@@ -24,4 +24,5 @@ This solution will affect my models and schemas. I will be using SQLModel for bo
 Thanks to the official full-stack fastapi template for providing new information to learn and to implement in my project. It would've been impossible without their template and excellent code writing. I am going to continue learning their code to improve my skills and make this project as real-looking as possible. Link: https://github.com/fastapi/full-stack-fastapi-template
 
 ### Misc
-Creating new branch "refactoring".
+* Creating new branch "refactoring".
+* Adding superuser
